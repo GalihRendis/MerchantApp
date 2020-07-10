@@ -10,47 +10,22 @@ using MerchantApp.Models;
 
 namespace MerchantApp.Controllers
 {
-    public class MerchantsController : Controller
+    public class OfferCategoriesController : Controller
     {
         private readonly MerchantAppContext _context;
 
-        public MerchantsController(MerchantAppContext context)
+        public OfferCategoriesController(MerchantAppContext context)
         {
             _context = context;
         }
 
-        // GET: Merchants
-        public async Task<IActionResult> Index(string MerchantsType, string searchString)
+        // GET: OfferCategories
+        public async Task<IActionResult> Index()
         {
-            // Use LINQ to get list of industry types.
-            IQueryable<string> IndustryTypeQuery = from m in _context.Merchants
-                                            orderby m.IndustryType
-                                            select m.IndustryType;
-
-            var merchants = from m in _context.Merchants
-                         select m;
-
-            if (!string.IsNullOrEmpty(searchString))
-            {
-                merchants = merchants.Where(s => s.Name.Contains(searchString));
-            }
-
-            if (!string.IsNullOrEmpty(MerchantsType))
-            {
-                merchants = merchants.Where(x => x.IndustryType == MerchantsType);
-            }
-
-            var merchantsTypeVM = new MerchantsTypeViewModel
-            {
-                IndustryType = new SelectList(await IndustryTypeQuery.Distinct().ToListAsync()),
-                Merchants = await merchants.ToListAsync(),
-                SearchString = searchString
-            };
-
-            return View(merchantsTypeVM);
+            return View(await _context.OfferCategories.ToListAsync());
         }
 
-        // GET: Merchants/Details/5
+        // GET: OfferCategories/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -58,39 +33,39 @@ namespace MerchantApp.Controllers
                 return NotFound();
             }
 
-            var merchants = await _context.Merchants
+            var offerCategories = await _context.OfferCategories
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (merchants == null)
+            if (offerCategories == null)
             {
                 return NotFound();
             }
 
-            return View(merchants);
+            return View(offerCategories);
         }
 
-        // GET: Merchants/Create
+        // GET: OfferCategories/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Merchants/Create
+        // POST: OfferCategories/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,OfficialUrl,SenderEmail,Subdomain,IndustryType")] Merchants merchants)
+        public async Task<IActionResult> Create([Bind("Title,Id,CreatedAt,UpdatedAt")] OfferCategories offerCategories)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(merchants);
+                _context.Add(offerCategories);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(merchants);
+            return View(offerCategories);
         }
 
-        // GET: Merchants/Edit/5
+        // GET: OfferCategories/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -98,22 +73,22 @@ namespace MerchantApp.Controllers
                 return NotFound();
             }
 
-            var merchants = await _context.Merchants.FindAsync(id);
-            if (merchants == null)
+            var offerCategories = await _context.OfferCategories.FindAsync(id);
+            if (offerCategories == null)
             {
                 return NotFound();
             }
-            return View(merchants);
+            return View(offerCategories);
         }
 
-        // POST: Merchants/Edit/5
+        // POST: OfferCategories/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,OfficialUrl,SenderEmail,Subdomain,IndustryType")] Merchants merchants)
+        public async Task<IActionResult> Edit(int id, [Bind("Title,Id,CreatedAt,UpdatedAt")] OfferCategories offerCategories)
         {
-            if (id != merchants.Id)
+            if (id != offerCategories.Id)
             {
                 return NotFound();
             }
@@ -122,12 +97,12 @@ namespace MerchantApp.Controllers
             {
                 try
                 {
-                    _context.Update(merchants);
+                    _context.Update(offerCategories);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!MerchantsExists(merchants.Id))
+                    if (!OfferCategoriesExists(offerCategories.Id))
                     {
                         return NotFound();
                     }
@@ -138,10 +113,10 @@ namespace MerchantApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(merchants);
+            return View(offerCategories);
         }
 
-        // GET: Merchants/Delete/5
+        // GET: OfferCategories/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -149,30 +124,30 @@ namespace MerchantApp.Controllers
                 return NotFound();
             }
 
-            var merchants = await _context.Merchants
+            var offerCategories = await _context.OfferCategories
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (merchants == null)
+            if (offerCategories == null)
             {
                 return NotFound();
             }
 
-            return View(merchants);
+            return View(offerCategories);
         }
 
-        // POST: Merchants/Delete/5
+        // POST: OfferCategories/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var merchants = await _context.Merchants.FindAsync(id);
-            _context.Merchants.Remove(merchants);
+            var offerCategories = await _context.OfferCategories.FindAsync(id);
+            _context.OfferCategories.Remove(offerCategories);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool MerchantsExists(int id)
+        private bool OfferCategoriesExists(int id)
         {
-            return _context.Merchants.Any(e => e.Id == id);
+            return _context.OfferCategories.Any(e => e.Id == id);
         }
     }
 }

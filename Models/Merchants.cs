@@ -1,25 +1,27 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MerchantApp.Models
 {
-    public class Merchants
+    public class Merchants : BaseModel
     {
-        [Column("id")]
-        public int Id { get; set; }
         [Column("name")]
-        public String Name { get; set; }
+        public string Name { get; set; }
         [Column("official_url")]
         [Display(Name = "Official URL")]
-        public String OfficialUrl { get; set; }
+        public string OfficialUrl { get; set; }
         [Column("sender_email")]
         [Display(Name = "Sender Email")]
-        public String SenderEmail { get; set; }
+        public string SenderEmail { get; set; }
         [Column("subdomain")]
-        public String Subdomain { get; set; }
+        public string Subdomain { get; set; }
         [Column("industry_type")]
         [Display(Name = "Industry Type")]
-        public String IndustryType { get; set; }
+        public string IndustryType { get; set; }
+
+        // Principal Key
+        public List<Offers> Offers { get; set; }
     }
 }
