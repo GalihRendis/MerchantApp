@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MerchantApp.Models
 {
@@ -25,9 +22,6 @@ namespace MerchantApp.Models
         [Column("friend_reward_type")]
         [Display(Name = "Friend Reward Type")]
         public int FriendRewardType { get; set; }
-        [Column("friend_reward_label")]
-        [Display(Name = "Friend Reward Label")]
-        public string FriendRewardLabel { get; set; }
         [Column("friend_reward_discount")]
         [Display(Name = "Friend Reward Discount")]
         public int FriendRewardDiscount { get; set; }
@@ -42,21 +36,12 @@ namespace MerchantApp.Models
         [Column("fan_reward_type")]
         [Display(Name = "Fan Reward Type")]
         public int FanRewardType { get; set; }
-        [Column("fan_reward_label")]
-        [Display(Name = "Fan Reward Label")]
-        public string FanRewardLabel { get; set; }
         [Column("fan_reward_amount")]
         [Display(Name = "Fan Reward Amount")]
         public int FanRewardAmount { get; set; }
-        [Column("fan_reward_amount_is_percent")]
-        [Display(Name = "Fan Amount Is Percent")]
-        public bool FanRewardAmountIsPercent { get; set; }
-        [Column("fan_rule_min_referral")]
-        [Display(Name = "Fan Rule Minimum Referral")]
-        public int FanRuleMinReferral { get; set; }
-        [Column("fan_rule_min_friend_referral")]
-        [Display(Name = "Fan Rule Minimum Friend Referral")]
-        public int FanRuleMinFriendReferral { get; set; }
+        [Column("fan_reward_label")]
+        [Display(Name = "Fan Reward Label")]
+        public string FanRewardLabel { get; set; }
 
         // Foreign Key - Merchants
         [Column("merchant_id")]

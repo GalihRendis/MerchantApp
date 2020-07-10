@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using MerchantApp.Data;
+using MerchantApp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using MerchantApp.Data;
-using MerchantApp.Models;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace MerchantApp.Controllers
 {
@@ -24,15 +23,19 @@ namespace MerchantApp.Controllers
         {
             // Use LINQ to get list of industry types.
             IQueryable<string> IndustryTypeQuery = from m in _context.Merchants
-                                            orderby m.IndustryType
-                                            select m.IndustryType;
+                                                   orderby m.IndustryType
+                                                   select m.IndustryType;
 
             var merchants = from m in _context.Merchants
-                         select m;
+                            select m;
 
             if (!string.IsNullOrEmpty(searchString))
             {
-                merchants = merchants.Where(s => s.Name.Contains(searchString));
+                merchants = merchants.Where(s => s.Name.Contains(searchString) ||
+                            s.OfficialUrl.Contains(searchString) ||
+                            s.IndustryType.Contains(searchString) ||
+                            s.SenderEmail.Contains(searchString) ||
+                            s.Subdomain.Contains(searchString));
             }
 
             if (!string.IsNullOrEmpty(MerchantsType))
@@ -40,7 +43,7 @@ namespace MerchantApp.Controllers
                 merchants = merchants.Where(x => x.IndustryType == MerchantsType);
             }
 
-            var merchantsTypeVM = new MerchantsTypeViewModel
+            var merchantsTypeVM = new MerchantsIndexViewModel
             {
                 IndustryType = new SelectList(await IndustryTypeQuery.Distinct().ToListAsync()),
                 Merchants = await merchants.ToListAsync(),
@@ -64,6 +67,12 @@ namespace MerchantApp.Controllers
             {
                 return NotFound();
             }
+
+
+            var offers = from m in _context.Offers
+                         select m;
+            offers = offers.Where(x => x.MerchantsId == id);
+            merchants.Offers = await offers.ToListAsync();
 
             return View(merchants);
         }

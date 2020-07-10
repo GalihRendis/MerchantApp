@@ -109,24 +109,12 @@ namespace MerchantApp.Migrations
                         .HasColumnName("fan_reward_amount")
                         .HasColumnType("int");
 
-                    b.Property<bool>("FanRewardAmountIsPercent")
-                        .HasColumnName("fan_reward_amount_is_percent")
-                        .HasColumnType("bit");
-
                     b.Property<string>("FanRewardLabel")
                         .HasColumnName("fan_reward_label")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("FanRewardType")
                         .HasColumnName("fan_reward_type")
-                        .HasColumnType("int");
-
-                    b.Property<int>("FanRuleMinFriendReferral")
-                        .HasColumnName("fan_rule_min_friend_referral")
-                        .HasColumnType("int");
-
-                    b.Property<int>("FanRuleMinReferral")
-                        .HasColumnName("fan_rule_min_referral")
                         .HasColumnType("int");
 
                     b.Property<int>("FriendRewardDiscount")
@@ -140,10 +128,6 @@ namespace MerchantApp.Migrations
                     b.Property<DateTime>("FriendRewardExpiredAt")
                         .HasColumnName("friend_reward_expired_at")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("FriendRewardLabel")
-                        .HasColumnName("friend_reward_label")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("FriendRewardType")
                         .HasColumnName("friend_reward_type")

@@ -1,4 +1,4 @@
-﻿@model MerchantApp.Models.MerchantsTypeViewModel
+﻿@model MerchantApp.Models.MerchantsIndexViewModel
 
 @{
     ViewData["Title"] = "Index";
@@ -17,10 +17,10 @@
                 <option value="">All</option>
             </select>
          -->
-            Name: <input type="text" name="SearchString" value="@Html.DisplayFor(model => model.SearchString)">
+            Search: <input type="text" name="SearchString" value="@Html.DisplayFor(model => model.SearchString)">
             <input type="submit" value="Filter" />
         </p>
-    </form>
+   </form>
 
     <table class="table">
         <thead>

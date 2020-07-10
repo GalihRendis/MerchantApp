@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using MerchantApp.Data;
+using MerchantApp.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using MerchantApp.Data;
-using MerchantApp.Models;
 
 namespace MerchantApp.Controllers
 {

@@ -1,5 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using MerchantApp.Models;
+﻿using MerchantApp.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace MerchantApp.Data
 {

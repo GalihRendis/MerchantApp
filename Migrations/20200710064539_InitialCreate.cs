@@ -1,5 +1,5 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
+using System;
 
 namespace MerchantApp.Migrations
 {
@@ -55,16 +55,12 @@ namespace MerchantApp.Migrations
                     image = table.Column<string>(nullable: true),
                     expired_at = table.Column<DateTime>(nullable: false),
                     friend_reward_type = table.Column<int>(nullable: false),
-                    friend_reward_label = table.Column<string>(nullable: true),
                     friend_reward_discount = table.Column<int>(nullable: false),
                     friend_reward_discount_is_percent = table.Column<bool>(nullable: false),
                     friend_reward_expired_at = table.Column<DateTime>(nullable: false),
                     fan_reward_type = table.Column<int>(nullable: false),
-                    fan_reward_label = table.Column<string>(nullable: true),
                     fan_reward_amount = table.Column<int>(nullable: false),
-                    fan_reward_amount_is_percent = table.Column<bool>(nullable: false),
-                    fan_rule_min_referral = table.Column<int>(nullable: false),
-                    fan_rule_min_friend_referral = table.Column<int>(nullable: false),
+                    fan_reward_label = table.Column<string>(nullable: true),
                     merchant_id = table.Column<int>(nullable: false),
                     offer_category_id = table.Column<int>(nullable: false)
                 },
