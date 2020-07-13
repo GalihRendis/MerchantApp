@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Primitives;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -68,7 +69,6 @@ namespace MerchantApp.Controllers
             {
                 offers.Image = UploadImages(offers.ImageFile);
                 offers.ImageContent = UploadImages(offers.ImageContentFile);
-
                 _context.Add(offers);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -159,6 +159,8 @@ namespace MerchantApp.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var offers = await _context.Offers.FindAsync(id);
+            DeleteImages(offers.Image);
+            DeleteImages(offers.ImageContent);
             _context.Offers.Remove(offers);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
@@ -181,6 +183,14 @@ namespace MerchantApp.Controllers
                 formFile.CopyTo(stream);
             }
             return fileName;
+        }
+        private void DeleteImages(string imageName)
+        {
+            string filePath = Path.Combine(_hostEnvironment.WebRootPath, "images", imageName);
+            if (System.IO.File.Exists(filePath))
+            {
+                System.IO.File.Delete(filePath);
+            }
         }
     }
 }
