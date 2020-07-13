@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Primitives;
+using Slugify;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,11 +16,13 @@ namespace MerchantApp.Controllers
     {
         private readonly MerchantAppContext _context;
         private readonly IWebHostEnvironment _hostEnvironment;
+        private readonly SlugHelper _helper;
 
-        public OffersController(MerchantAppContext context, IWebHostEnvironment hostEnvironment)
+        public OffersController(MerchantAppContext context, IWebHostEnvironment hostEnvironment, SlugHelper helper)
         {
             _context = context;
             _hostEnvironment = hostEnvironment;
+            _helper = helper;
         }
 
         // GET: Offers
@@ -67,6 +69,7 @@ namespace MerchantApp.Controllers
         {
             if (ModelState.IsValid)
             {
+                // Upload image to www/root
                 if (!(offers.ImageFile == null))
                 {
                     offers.Image = UploadImages(offers.ImageFile);
@@ -74,7 +77,12 @@ namespace MerchantApp.Controllers
                 if (!(offers.ImageContentFile == null))
                 {
                     offers.ImageContent = UploadImages(offers.ImageContentFile);
-                }                
+                }
+
+                // Generate slug
+                offers.Slug = _helper.GenerateSlug(offers.Title);
+
+                // Insert data
                 _context.Add(offers);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -127,7 +135,11 @@ namespace MerchantApp.Controllers
                     {
                         DeleteImages(offers.ImageContent);
                         offers.ImageContent = UploadImages(offers.ImageContentFile);
-                    }                   
+                    }
+
+                    // Generate slug
+                    offers.Slug = _helper.GenerateSlug(offers.Title);
+
                     _context.Update(offers);
                     await _context.SaveChangesAsync();
                 }
@@ -184,7 +196,7 @@ namespace MerchantApp.Controllers
             {
                 DeleteImages(offers.ImageContent);
             }
-            
+
             _context.Offers.Remove(offers);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));

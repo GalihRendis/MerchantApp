@@ -2,6 +2,7 @@
 using MerchantApp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Slugify;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -10,10 +11,12 @@ namespace MerchantApp.Controllers
     public class MerchantsController : Controller
     {
         private readonly MerchantAppContext _context;
+        private readonly SlugHelper _helper;
 
-        public MerchantsController(MerchantAppContext context)
+        public MerchantsController(MerchantAppContext context, SlugHelper helper)
         {
             _context = context;
+            _helper = helper;
         }
 
         // GET: Merchants
@@ -51,10 +54,14 @@ namespace MerchantApp.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,OfficialUrl,CheckoutType,Id,CreatedAt,UpdatedAt")] Merchants merchants)
+        public async Task<IActionResult> Create([Bind("Name,Slug,OfficialUrl,CheckoutType,Id,CreatedAt,UpdatedAt")] Merchants merchants)
         {
             if (ModelState.IsValid)
             {
+                // Generate slug
+                merchants.Slug = _helper.GenerateSlug(merchants.Name);
+
+                // Insert data
                 _context.Add(merchants);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -83,7 +90,7 @@ namespace MerchantApp.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Name,OfficialUrl,CheckoutType,Id,CreatedAt,UpdatedAt")] Merchants merchants)
+        public async Task<IActionResult> Edit(int id, [Bind("Name,Slug,OfficialUrl,CheckoutType,Id,CreatedAt,UpdatedAt")] Merchants merchants)
         {
             if (id != merchants.Id)
             {
@@ -94,6 +101,9 @@ namespace MerchantApp.Controllers
             {
                 try
                 {
+                    // Generate slug
+                    merchants.Slug = _helper.GenerateSlug(merchants.Name);
+
                     _context.Update(merchants);
                     await _context.SaveChangesAsync();
                 }

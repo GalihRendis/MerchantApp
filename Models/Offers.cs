@@ -37,7 +37,7 @@ namespace MerchantApp.Models
         // Friend Benefit
         [Column("friend_reward_type")]
         [Display(Name = "Friend Reward Type")]
-        public int FriendRewardType { get; set; }   // Benefit: diskon & tanpa benefit
+        public int? FriendRewardType { get; set; }   // Benefit: diskon & tanpa benefit
 
         [Column("friend_reward_amount")]
         [Display(Name = "Friend Reward Amount")]
@@ -54,7 +54,7 @@ namespace MerchantApp.Models
         // Fan Benefit
         [Column("fan_reward_type")]
         [Display(Name = "Fan Reward Type")]
-        public int FanRewardType { get; set; }      // Benefit: komisi, undian, hadiah langsung
+        public int? FanRewardType { get; set; }      // Benefit: komisi, undian, hadiah langsung
 
         [Column("fan_reward_amount")]
         [Display(Name = "Fan Reward Amount")]
@@ -62,7 +62,7 @@ namespace MerchantApp.Models
 
         [Column("fan_reward_label")]
         [Display(Name = "Fan Reward Label")]
-        public string? FanRewardLabel { get; set; } // Atribut untuk undian dan hadiah langsung
+        public string FanRewardLabel { get; set; } // Atribut untuk undian dan hadiah langsung
 
         // Foreign Key - Merchants
         [Column("merchant_id")]

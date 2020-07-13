@@ -13,6 +13,17 @@ namespace MerchantApp.Data
                 : base(options)
         {
         }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Merchants>()
+                .HasIndex(b => b.Slug)
+                .IsUnique();
+            modelBuilder.Entity<Offers>()
+                .HasIndex(b => b.Slug)
+                .IsUnique();
+        }
+
         public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
         {
             var AddedEntities = ChangeTracker.Entries()
