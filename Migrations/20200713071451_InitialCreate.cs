@@ -1,5 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-using System;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MerchantApp.Migrations
 {
@@ -14,12 +14,10 @@ namespace MerchantApp.Migrations
                     id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     created_at = table.Column<DateTime>(nullable: false),
-                    updated_at = table.Column<DateTime>(nullable: false),
+                    updated_at = table.Column<DateTime>(nullable: true),
                     name = table.Column<string>(nullable: true),
                     official_url = table.Column<string>(nullable: true),
-                    sender_email = table.Column<string>(nullable: true),
-                    subdomain = table.Column<string>(nullable: true),
-                    industry_type = table.Column<string>(nullable: true)
+                    checkout_type = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -33,7 +31,7 @@ namespace MerchantApp.Migrations
                     id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     created_at = table.Column<DateTime>(nullable: false),
-                    updated_at = table.Column<DateTime>(nullable: false),
+                    updated_at = table.Column<DateTime>(nullable: true),
                     title = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -48,18 +46,18 @@ namespace MerchantApp.Migrations
                     id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     created_at = table.Column<DateTime>(nullable: false),
-                    updated_at = table.Column<DateTime>(nullable: false),
+                    updated_at = table.Column<DateTime>(nullable: true),
                     title = table.Column<string>(nullable: true),
-                    description = table.Column<string>(nullable: true),
-                    status = table.Column<string>(nullable: true),
+                    slug = table.Column<string>(nullable: true),
                     image = table.Column<string>(nullable: true),
-                    expired_at = table.Column<DateTime>(nullable: false),
+                    description = table.Column<string>(nullable: true),
+                    expired_at = table.Column<DateTime>(nullable: true),
                     friend_reward_type = table.Column<int>(nullable: false),
-                    friend_reward_discount = table.Column<int>(nullable: false),
-                    friend_reward_discount_is_percent = table.Column<bool>(nullable: false),
-                    friend_reward_expired_at = table.Column<DateTime>(nullable: false),
+                    friend_reward_amount = table.Column<int>(nullable: true),
+                    friend_reward_is_percent = table.Column<bool>(nullable: true),
+                    friend_reward_expired_at = table.Column<DateTime>(nullable: true),
                     fan_reward_type = table.Column<int>(nullable: false),
-                    fan_reward_amount = table.Column<int>(nullable: false),
+                    fan_reward_amount = table.Column<int>(nullable: true),
                     fan_reward_label = table.Column<string>(nullable: true),
                     merchant_id = table.Column<int>(nullable: false),
                     offer_category_id = table.Column<int>(nullable: false)

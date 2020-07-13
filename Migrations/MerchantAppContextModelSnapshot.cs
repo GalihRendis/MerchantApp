@@ -27,13 +27,13 @@ namespace MerchantApp.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("CheckoutType")
+                        .HasColumnName("checkout_type")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnName("created_at")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("IndustryType")
-                        .HasColumnName("industry_type")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .HasColumnName("name")
@@ -43,15 +43,7 @@ namespace MerchantApp.Migrations
                         .HasColumnName("official_url")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("SenderEmail")
-                        .HasColumnName("sender_email")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Subdomain")
-                        .HasColumnName("subdomain")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("UpdatedAt")
+                    b.Property<DateTime?>("UpdatedAt")
                         .HasColumnName("updated_at")
                         .HasColumnType("datetime2");
 
@@ -76,7 +68,7 @@ namespace MerchantApp.Migrations
                         .HasColumnName("title")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("UpdatedAt")
+                    b.Property<DateTime?>("UpdatedAt")
                         .HasColumnName("updated_at")
                         .HasColumnType("datetime2");
 
@@ -101,11 +93,11 @@ namespace MerchantApp.Migrations
                         .HasColumnName("description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("ExpiredAt")
+                    b.Property<DateTime?>("ExpiredAt")
                         .HasColumnName("expired_at")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("FanRewardAmount")
+                    b.Property<int?>("FanRewardAmount")
                         .HasColumnName("fan_reward_amount")
                         .HasColumnType("int");
 
@@ -117,17 +109,17 @@ namespace MerchantApp.Migrations
                         .HasColumnName("fan_reward_type")
                         .HasColumnType("int");
 
-                    b.Property<int>("FriendRewardDiscount")
-                        .HasColumnName("friend_reward_discount")
+                    b.Property<int?>("FriendRewardAmount")
+                        .HasColumnName("friend_reward_amount")
                         .HasColumnType("int");
 
-                    b.Property<bool>("FriendRewardDiscountIsPercent")
-                        .HasColumnName("friend_reward_discount_is_percent")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime>("FriendRewardExpiredAt")
+                    b.Property<DateTime?>("FriendRewardExpiredAt")
                         .HasColumnName("friend_reward_expired_at")
                         .HasColumnType("datetime2");
+
+                    b.Property<bool?>("FriendRewardIsPercent")
+                        .HasColumnName("friend_reward_is_percent")
+                        .HasColumnType("bit");
 
                     b.Property<int>("FriendRewardType")
                         .HasColumnName("friend_reward_type")
@@ -145,15 +137,15 @@ namespace MerchantApp.Migrations
                         .HasColumnName("offer_category_id")
                         .HasColumnType("int");
 
-                    b.Property<string>("Status")
-                        .HasColumnName("status")
+                    b.Property<string>("Slug")
+                        .HasColumnName("slug")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
                         .HasColumnName("title")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("UpdatedAt")
+                    b.Property<DateTime?>("UpdatedAt")
                         .HasColumnName("updated_at")
                         .HasColumnType("datetime2");
 

@@ -8,17 +8,14 @@ namespace MerchantApp.Models
     {
         [Column("name")]
         public string Name { get; set; }
+
         [Column("official_url")]
         [Display(Name = "Official URL")]
         public string OfficialUrl { get; set; }
-        [Column("sender_email")]
-        [Display(Name = "Sender Email")]
-        public string SenderEmail { get; set; }
-        [Column("subdomain")]
-        public string Subdomain { get; set; }
-        [Column("industry_type")]
-        [Display(Name = "Industry Type")]
-        public string IndustryType { get; set; }
+
+        [Column("checkout_type")]
+        [Display(Name = "Checkout Type")]
+        public string CheckoutType { get; set; }
 
         // Principal Key
         public List<Offers> Offers { get; set; }
