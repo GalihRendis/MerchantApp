@@ -1,8 +1,11 @@
 ﻿using MerchantApp.Data;
 using MerchantApp.Models;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -11,10 +14,12 @@ namespace MerchantApp.Controllers
     public class OffersController : Controller
     {
         private readonly MerchantAppContext _context;
+        private readonly IWebHostEnvironment _hostEnvironment;
 
-        public OffersController(MerchantAppContext context)
+        public OffersController(MerchantAppContext context, IWebHostEnvironment hostEnvironment)
         {
             _context = context;
+            _hostEnvironment = hostEnvironment;
         }
 
         // GET: Offers
@@ -57,10 +62,13 @@ namespace MerchantApp.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Title,Slug,Image,Description,ExpiredAt,FriendRewardType,FriendRewardAmount,FriendRewardIsPercent,FriendRewardExpiredAt,FanRewardType,FanRewardAmount,FanRewardLabel,MerchantsId,OfferCategoriesId,Id,CreatedAt,UpdatedAt")] Offers offers)
+        public async Task<IActionResult> Create([Bind("Title,Slug,ImageFile,ImageContentFile,Description,ExpiredAt,FriendRewardType,FriendRewardAmount,FriendRewardIsPercent,FriendRewardExpiredAt,FanRewardType,FanRewardAmount,FanRewardLabel,MerchantsId,OfferCategoriesId,Id,CreatedAt,UpdatedAt")] Offers offers)
         {
             if (ModelState.IsValid)
             {
+                offers.Image = UploadImages(offers.ImageFile);
+                offers.ImageContent = UploadImages(offers.ImageContentFile);
+
                 _context.Add(offers);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -93,7 +101,7 @@ namespace MerchantApp.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Title,Slug,Image,Description,ExpiredAt,FriendRewardType,FriendRewardAmount,FriendRewardIsPercent,FriendRewardExpiredAt,FanRewardType,FanRewardAmount,FanRewardLabel,MerchantsId,OfferCategoriesId,Id,CreatedAt,UpdatedAt")] Offers offers)
+        public async Task<IActionResult> Edit(int id, [Bind("Title,Slug,Image,ImageContent,Description,ExpiredAt,FriendRewardType,FriendRewardAmount,FriendRewardIsPercent,FriendRewardExpiredAt,FanRewardType,FanRewardAmount,FanRewardLabel,MerchantsId,OfferCategoriesId,Id,CreatedAt,UpdatedAt")] Offers offers)
         {
             if (id != offers.Id)
             {
@@ -159,6 +167,20 @@ namespace MerchantApp.Controllers
         private bool OffersExists(int id)
         {
             return _context.Offers.Any(e => e.Id == id);
+        }
+
+        private string UploadImages(IFormFile formFile)
+        {
+            // generate random file name
+            string fileName = Path.ChangeExtension(Path.GetRandomFileName(), Path.GetExtension(formFile.FileName));
+            // mendefinisikan path
+            string filePath = Path.Combine(_hostEnvironment.WebRootPath, "images", fileName);
+            // mengcopy file ke path
+            using (FileStream stream = System.IO.File.Create(filePath))
+            {
+                formFile.CopyTo(stream);
+            }
+            return fileName;
         }
     }
 }

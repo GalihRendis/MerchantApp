@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -14,6 +15,17 @@ namespace MerchantApp.Models
 
         [Column("image")]
         public string Image { get; set; }
+
+        [NotMapped]
+        [Display(Name = "Upload Image")]
+        public IFormFile ImageFile { get; set; }
+
+        [Column("image_content")]
+        public string ImageContent { get; set; }
+
+        [NotMapped]
+        [Display(Name = "Upload Image Content")]
+        public IFormFile ImageContentFile { get; set; }
 
         [Column("description")]
         public string Description { get; set; }
