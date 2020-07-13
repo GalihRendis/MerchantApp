@@ -63,12 +63,18 @@ namespace MerchantApp.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Title,Slug,ImageFile,ImageContentFile,Description,ExpiredAt,FriendRewardType,FriendRewardAmount,FriendRewardIsPercent,FriendRewardExpiredAt,FanRewardType,FanRewardAmount,FanRewardLabel,MerchantsId,OfferCategoriesId,Id,CreatedAt,UpdatedAt")] Offers offers)
+        public async Task<IActionResult> Create([Bind("Title,Slug,Image,ImageContent,ImageFile,ImageContentFile,Description,ExpiredAt,FriendRewardType,FriendRewardAmount,FriendRewardIsPercent,FriendRewardExpiredAt,FanRewardType,FanRewardAmount,FanRewardLabel,MerchantsId,OfferCategoriesId,Id,CreatedAt,UpdatedAt")] Offers offers)
         {
             if (ModelState.IsValid)
             {
-                offers.Image = UploadImages(offers.ImageFile);
-                offers.ImageContent = UploadImages(offers.ImageContentFile);
+                if (!(offers.ImageFile == null))
+                {
+                    offers.Image = UploadImages(offers.ImageFile);
+                }
+                if (!(offers.ImageContentFile == null))
+                {
+                    offers.ImageContent = UploadImages(offers.ImageContentFile);
+                }                
                 _context.Add(offers);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -101,7 +107,7 @@ namespace MerchantApp.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Title,Slug,Image,ImageContent,Description,ExpiredAt,FriendRewardType,FriendRewardAmount,FriendRewardIsPercent,FriendRewardExpiredAt,FanRewardType,FanRewardAmount,FanRewardLabel,MerchantsId,OfferCategoriesId,Id,CreatedAt,UpdatedAt")] Offers offers)
+        public async Task<IActionResult> Edit(int id, [Bind("Title,Slug,Image,ImageContent,ImageFile,ImageContentFile,Description,ExpiredAt,FriendRewardType,FriendRewardAmount,FriendRewardIsPercent,FriendRewardExpiredAt,FanRewardType,FanRewardAmount,FanRewardLabel,MerchantsId,OfferCategoriesId,Id,CreatedAt,UpdatedAt")] Offers offers)
         {
             if (id != offers.Id)
             {
@@ -112,6 +118,16 @@ namespace MerchantApp.Controllers
             {
                 try
                 {
+                    if (!(offers.ImageFile == null))
+                    {
+                        DeleteImages(offers.Image);
+                        offers.Image = UploadImages(offers.ImageFile);
+                    }
+                    if (!(offers.ImageContentFile == null))
+                    {
+                        DeleteImages(offers.ImageContent);
+                        offers.ImageContent = UploadImages(offers.ImageContentFile);
+                    }                   
                     _context.Update(offers);
                     await _context.SaveChangesAsync();
                 }
@@ -159,8 +175,16 @@ namespace MerchantApp.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var offers = await _context.Offers.FindAsync(id);
-            DeleteImages(offers.Image);
-            DeleteImages(offers.ImageContent);
+            if (!(offers.Image == null))
+            {
+                DeleteImages(offers.Image);
+            }
+
+            if (!(offers.ImageContent == null))
+            {
+                DeleteImages(offers.ImageContent);
+            }
+            
             _context.Offers.Remove(offers);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
@@ -184,6 +208,7 @@ namespace MerchantApp.Controllers
             }
             return fileName;
         }
+
         private void DeleteImages(string imageName)
         {
             string filePath = Path.Combine(_hostEnvironment.WebRootPath, "images", imageName);
@@ -192,5 +217,6 @@ namespace MerchantApp.Controllers
                 System.IO.File.Delete(filePath);
             }
         }
+
     }
 }
