@@ -26,10 +26,21 @@ namespace MerchantApp.Controllers
         }
 
         // GET: Offers
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? MerchantsId)
         {
-            var merchantAppContext = _context.Offers.Include(o => o.Merchants).Include(o => o.OfferCategories);
-            return View(await merchantAppContext.ToListAsync());
+            if (MerchantsId != null)
+            {
+                var merchantAppContext = _context.Offers.Include(o => o.Merchants).Include(o => o.OfferCategories).Where(o => o.MerchantsId == MerchantsId);
+                ViewData["MerchantName"] = _context.Merchants.FirstOrDefault(m => m.Id == MerchantsId).Name + "'s " + "offer list";
+                return View(await merchantAppContext.ToListAsync());
+            }
+            else
+            {
+                var merchantAppContext = _context.Offers.Include(o => o.Merchants).Include(o => o.OfferCategories);
+                ViewData["MerchantName"] = "Index";
+                return View(await merchantAppContext.ToListAsync());
+            }
+
         }
 
         // GET: Offers/Details/5
@@ -65,16 +76,16 @@ namespace MerchantApp.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Title,Slug,Image,ImageContent,ImageFile,ImageContentFile,Description,ExpiredAt,FriendRewardType,FriendRewardAmount,FriendRewardIsPercent,FriendRewardExpiredAt,FanRewardType,FanRewardAmount,FanRewardLabel,MerchantsId,OfferCategoriesId,Id,CreatedAt,UpdatedAt")] Offers offers)
+        public async Task<IActionResult> Create([Bind("Title,Slug,Image,ImageContent,ImageFile,ImageContentFile,Description,ExpiredAt,FriendRewardType,FriendRewardAmount,FriendRewardIsPercent,FriendRewardExpiredAt,FanRewardType,FanRewardAmount,FanRewardLabel,FanRuleMinReferral,MerchantsId,OfferCategoriesId,Id,CreatedAt,UpdatedAt")] Offers offers)
         {
             if (ModelState.IsValid)
             {
                 // Upload image to www/root
-                if (!(offers.ImageFile == null))
+                if (offers.ImageFile != null)
                 {
                     offers.Image = UploadImages(offers.ImageFile);
                 }
-                if (!(offers.ImageContentFile == null))
+                if (offers.ImageContentFile != null)
                 {
                     offers.ImageContent = UploadImages(offers.ImageContentFile);
                 }
@@ -115,7 +126,7 @@ namespace MerchantApp.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Title,Slug,Image,ImageContent,ImageFile,ImageContentFile,Description,ExpiredAt,FriendRewardType,FriendRewardAmount,FriendRewardIsPercent,FriendRewardExpiredAt,FanRewardType,FanRewardAmount,FanRewardLabel,MerchantsId,OfferCategoriesId,Id,CreatedAt,UpdatedAt")] Offers offers)
+        public async Task<IActionResult> Edit(int id, [Bind("Title,Slug,Image,ImageContent,ImageFile,ImageContentFile,Description,ExpiredAt,FriendRewardType,FriendRewardAmount,FriendRewardIsPercent,FriendRewardExpiredAt,FanRewardType,FanRewardAmount,FanRewardLabel,FanRuleMinReferral,MerchantsId,OfferCategoriesId,Id,CreatedAt,UpdatedAt")] Offers offers)
         {
             if (id != offers.Id)
             {
@@ -126,12 +137,12 @@ namespace MerchantApp.Controllers
             {
                 try
                 {
-                    if (!(offers.ImageFile == null))
+                    if (offers.ImageFile != null)
                     {
                         DeleteImages(offers.Image);
                         offers.Image = UploadImages(offers.ImageFile);
                     }
-                    if (!(offers.ImageContentFile == null))
+                    if (offers.ImageContentFile != null)
                     {
                         DeleteImages(offers.ImageContent);
                         offers.ImageContent = UploadImages(offers.ImageContentFile);
@@ -187,12 +198,12 @@ namespace MerchantApp.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var offers = await _context.Offers.FindAsync(id);
-            if (!(offers.Image == null))
+            if (offers.Image != null)
             {
                 DeleteImages(offers.Image);
             }
 
-            if (!(offers.ImageContent == null))
+            if (offers.ImageContent != null)
             {
                 DeleteImages(offers.ImageContent);
             }

@@ -54,7 +54,7 @@ namespace MerchantApp.Models
         // Fan Benefit
         [Column("fan_reward_type")]
         [Display(Name = "Fan Reward Type")]
-        public int? FanRewardType { get; set; }      // Benefit: komisi, undian, hadiah langsung
+        public int? FanRewardType { get; set; }     // Benefit: komisi, undian, hadiah langsung
 
         [Column("fan_reward_amount")]
         [Display(Name = "Fan Reward Amount")]
@@ -62,7 +62,11 @@ namespace MerchantApp.Models
 
         [Column("fan_reward_label")]
         [Display(Name = "Fan Reward Label")]
-        public string FanRewardLabel { get; set; } // Atribut untuk undian dan hadiah langsung
+        public string FanRewardLabel { get; set; }  // Atribut untuk undian dan hadiah langsung
+
+        [Column("fan_rule_min_referral")]
+        [Display(Name = "Fan Rule Min Referral")]
+        public int? FanRuleMinReferral { get; set; }
 
         // Foreign Key - Merchants
         [Column("merchant_id")]

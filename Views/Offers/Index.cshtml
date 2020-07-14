@@ -4,7 +4,7 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>@ViewData["MerchantName"]</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -16,52 +16,13 @@
                 @Html.DisplayNameFor(model => model.Title)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Slug)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Image)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ImageContent)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ExpiredAt)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FriendRewardType)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FriendRewardAmount)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FriendRewardIsPercent)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FriendRewardExpiredAt)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FanRewardType)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FanRewardAmount)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FanRewardLabel)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Merchants)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.OfferCategories)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CreatedAt)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UpdatedAt)
             </th>
             <th></th>
         </tr>
@@ -73,52 +34,13 @@
                 @Html.DisplayFor(modelItem => item.Title)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Slug)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Image)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ImageContent)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ExpiredAt)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FriendRewardType)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FriendRewardAmount)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FriendRewardIsPercent)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FriendRewardExpiredAt)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FanRewardType)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FanRewardAmount)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FanRewardLabel)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Merchants.Id)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.OfferCategories.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreatedAt)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UpdatedAt)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
